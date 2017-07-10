@@ -1,0 +1,93 @@
+---
+layout: post
+title: "Problema 2 - Checkpoint 1"
+published: true
+tags: [htmlwidgets, r]
+author: "Italo Lins"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(readr)
+
+library(htmlwidgets)
+library(dygraphs)
+library(plotly)
+
+library(RColorBrewer)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r echo=FALSE, message=FALSE}
+dados <- read_csv("series_from_imdb.csv")
+```
+
+##Avaliação das Series pela IMDB
+
+As séries que foram escolhidas para a comparação de avaliações foram Game of Thrones, Sense8 e Vikings. Podemos notar pelo gráfico abaixo que as duas séries mais bem avaliadas pelo IMDB dentre as quatros, aparenta serem Game of Thrones e Sense8, se observarmos as avaliações em sua maioria elas apresentam valore muito proximos de nove, se observarmos ainda temos que poucos epsódios de Sense8 estao acima de 9.5 enquanto uma boa quantidade de epsódios de Game of Thrones esta acima dessa nota sendo assim a série melhor avaliada pela IMDB.
+
+```{r echo=FALSE, message=FALSE}
+sense8 <- dados %>% filter(series_name  == "Sense8")
+vikings <- dados %>% filter(series_name  == "Vikings")
+got <- dados %>% filter(series_name  == "Game of Thrones")
+
+p1 <-plot_ly(data = sense8, 
+        x = ~ series_ep, 
+        y = ~ UserRating, 
+        name = "avaliacoes",
+        colors = "Set1",
+        color = ~as.character(series_name), 
+        text = ~paste("Epsódio: ",Episode,"\nAvaliação: ", UserRating) ) %>% 
+  add_trace(y = ~ UserRating, 
+            type = "scatter",
+            mode = 'line+markers',
+            symbol = ~series_name, 
+            symbols = c('circle'),
+            color = ~as.character(season),
+            hoverinfo = "text") 
+
+
+p2 <-plot_ly(data = vikings, 
+        x = ~ series_ep, 
+        y = ~ UserRating, 
+        name = "avaliacoes",
+        colors = "Set1",
+        color = ~as.character(series_name), 
+        text = ~paste("Epsódio: ",Episode,"\nAvaliação: ", UserRating) ) %>% 
+  add_trace(y = ~ UserRating, 
+            type = "scatter",
+            mode = 'line+markers',
+            symbol = ~series_name, 
+            symbols = c('x'),
+            color = ~as.character(season),
+            hoverinfo = "text")
+
+p3 <-plot_ly(data = got, 
+        x = ~ series_ep, 
+        y = ~ UserRating, 
+        name = "avaliacoes",
+        colors = "Set1",
+        color = ~as.character(series_name), 
+        text = ~paste("Epsódio: ",Episode,"\nAvaliação: ", UserRating) ) %>% 
+  add_trace(y = ~ UserRating, 
+            type = "scatter",
+            mode = 'line+markers',
+            symbol = ~series_name, 
+            symbols = c('o'),
+            color = ~as.character(season),
+            hoverinfo = "text")
+
+po <- subplot(nrows = 3, p1,p2,p3)
+
+po
+
+```
+
+
+
+
+
