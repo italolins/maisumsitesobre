@@ -4,7 +4,7 @@ subtitle: estatísticas e outras coisas
 email: italo1renan@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
   um site sobre estatísticas, tutorias e coisas outras. 
-baseurl: "/maisumsitesobre" # the subpath of your site, e.g. /blog/
+baseurl: "/maisumsitesobre/" # the subpath of your site, e.g. /blog/
 url: "https://italolins.github.io/maisumsitesobre/" # the base hostname & protocol for your site
 twitter_username: 
 github_username: italolins 
